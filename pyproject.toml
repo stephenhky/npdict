@@ -28,7 +28,7 @@ classifiers = [
     "Intended Audience :: Science/Research",
     "Intended Audience :: Developers",
 ]
-dependencies = ["numpy"]
+dependencies = ["numpy", "typing_extensions"]
 
 [project.urls]
 Repository = "https://github.com/stephenhky/npdict"
