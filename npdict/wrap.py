@@ -18,7 +18,7 @@ class NumpyNDArrayWrappedDict(dict):
     def __init__(
             self,
             lists_keystrings: list[list[str]],
-            default_initial_value=0.0
+            default_initial_value: float=0.0
     ):
         super(dict, self).__init__()
         for list_keystrings in lists_keystrings:
@@ -60,22 +60,9 @@ class NumpyNDArrayWrappedDict(dict):
     def update(self, new_dict: dict):
         raise TypeError("We cannot update this kind of dict this way!")
 
-    def _iterate_keys(self) -> Generator[Tuple[str, ...], None, None]:
+    def __iter__(self) -> Generator[Tuple[str, ...], None, None]:
         for keywords_tuple in product(*self._lists_keystrings):
             yield keywords_tuple
-
-    def keys(self):
-        return [keywords_tuple for keywords_tuple in self._iterate_keys()]
-
-    def values(self):
-        return [self.__getitem__(keywords_tuple) for keywords_tuple in self._iterate_keys()]
-
-    def __iter__(self):
-        for keywords_tuple in self._iterate_keys():
-            yield keywords_tuple, self.__getitem__(keywords_tuple)
-
-    # def items(self):
-    #     pass
 
     def to_numpy(self) -> np.ndarray:
         return self._numpyarray
@@ -120,7 +107,16 @@ class NumpyNDArrayWrappedDict(dict):
             oridict: dict[Tuple[str, ...], float],
             default_initial_value: float = 0.0
     ) -> Self:
-        pass
+        nbdims = len(next(iter(oridict)))
+        lists_keystrings = [
+            list(set(keystring[i] for keystring in oridict.keys()))
+            for i in range(nbdims)
+        ]
+        return cls.from_dict_given_keywords(
+            lists_keystrings,
+            oridict,
+            default_initial_value=default_initial_value
+        )
 
     @property
     def tensor_dimensions(self) -> int:
