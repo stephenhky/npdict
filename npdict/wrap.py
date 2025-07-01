@@ -64,6 +64,18 @@ class NumpyNDArrayWrappedDict(dict):
         for keywords_tuple in product(*self._lists_keystrings):
             yield keywords_tuple
 
+    def keys(self):
+        return list(self.__iter__())
+
+    def values(self):
+        return [self.__getitem__(keywords_tuple) for keywords_tuple in self.__iter__()]
+
+    def items(self):
+        return [
+            (keywords_tuple, self.__getitem__(keywords_tuple))
+            for keywords_tuple in self.__iter__()
+        ]
+
     def to_numpy(self) -> np.ndarray:
         return self._numpyarray
 
