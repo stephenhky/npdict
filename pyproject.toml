@@ -3,7 +3,7 @@ requires = ["setuptools", "setuptools-scm", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pyrlutils"
+name = "nptyping"
 version = "0.0.1a1"
 authors = [
     {name = "Kwan Yuet Stephen Ho", email = "stephenhky@yahoo.com.hk"}
