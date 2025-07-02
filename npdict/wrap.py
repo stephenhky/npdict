@@ -85,7 +85,7 @@ class NumpyNDArrayWrappedDict(dict):
         return wrapped_dict
 
     def __repr__(self) -> str:
-        return f"<NumpyNDArrayWrappedDict: dimensions ({', '.join(self.dimension_sizes)})>"
+        return f"<NumpyNDArrayWrappedDict: dimensions ({', '.join(map(str, self.dimension_sizes))})>"
 
     def __str__(self) -> str:
         return self.__repr__()

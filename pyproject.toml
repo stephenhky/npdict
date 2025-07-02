@@ -39,4 +39,4 @@ packages = ["npdict"]
 zip-safe = false
 
 [project.optional-dependencies]
-test = ["unittest"]
+test = ["pytest"]
