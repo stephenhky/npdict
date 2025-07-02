@@ -77,6 +77,7 @@ class TestNumpyNDArrayWrappedDict(unittest.TestCase):
         self.assertEqual(wrapped[('a', 'x')], 1)
         self.assertEqual(wrapped[('b', 'y')], 2)
         self.assertEqual(wrapped[('a', 'y')], 0.0)
+        self.assertEqual(wrapped[('b', 'x')], 0.0)
 
     def test_from_dict_given_keywords(self):
         d = {('a', 'x'): 1}
