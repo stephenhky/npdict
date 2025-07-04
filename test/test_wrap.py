@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
 
-from npdict.wrap import NumpyNDArrayWrappedDict
+from npdict import NumpyNDArrayWrappedDict
 from npdict.utils import DuplicatedKeyError, WrongArrayDimensionException
 
 
