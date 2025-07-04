@@ -55,7 +55,7 @@ class NumpyNDArrayWrappedDict(dict):
         if len(key) != self.tensor_dimensions:
             raise WrongArrayDimensionException(self.tensor_dimensions, len(key))
         indices = self._get_indices(key)
-        self._numpyarray[*indices] = value
+        self._numpyarray[tuple(indices)] = value
 
     def update(self, new_dict: dict):
         raise TypeError("We cannot update this kind of dict this way!")
