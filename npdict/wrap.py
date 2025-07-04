@@ -49,7 +49,7 @@ class NumpyNDArrayWrappedDict(dict):
         if len(item) != self.tensor_dimensions:
             raise WrongArrayDimensionException(self.tensor_dimensions, len(item))
         indices = self._get_indices(item)
-        return self._numpyarray[*indices]
+        return self._numpyarray[tuple(indices)]
 
     def __setitem__(self, key: Tuple[str, ...], value: float) -> None:
         if len(key) != self.tensor_dimensions:
