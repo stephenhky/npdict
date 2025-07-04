@@ -11,7 +11,7 @@ if sys.version_info < (3, 11):
 else:
     from typing import Self
 
-from .utils import DuplicatedKeyError, WrongArrayDimensionException
+from .utils import DuplicatedKeyError, WrongArrayDimensionException, WrongArrayShapeException
 
 
 class NumpyNDArrayWrappedDict(dict):
@@ -80,6 +80,10 @@ class NumpyNDArrayWrappedDict(dict):
         return self._numpyarray
 
     def generate_dict(self, nparray: np.ndarray) -> Self:
+        if len(nparray.shape) != self.tensor_dimensions:
+            raise WrongArrayDimensionException(self.tensor_dimensions, len(nparray.shape))
+        if nparray.shape != self._numpyarray.shape:
+            raise WrongArrayShapeException(self._numpyarray.shape, nparray.shape)
         wrapped_dict = NumpyNDArrayWrappedDict(self._lists_keystrings)
         wrapped_dict._numpyarray = nparray
         return wrapped_dict
