@@ -2,7 +2,7 @@ import unittest
 import numpy as np
 
 from npdict import NumpyNDArrayWrappedDict
-from npdict.utils import DuplicatedKeyError, WrongArrayDimensionException
+from npdict.utils import DuplicatedKeyError, WrongArrayDimensionException, WrongArrayShapeException
 
 
 class TestNumpyNDArrayWrappedDict(unittest.TestCase):
@@ -99,6 +99,11 @@ class TestNumpyNDArrayWrappedDict(unittest.TestCase):
         new_wrapped_dict = self.wrapped_dict.generate_dict(new_array)
         np.testing.assert_array_equal(new_wrapped_dict.to_numpy(), new_array)
         self.assertEqual(new_wrapped_dict.dimension_sizes, self.wrapped_dict.dimension_sizes)
+
+    def test_generate_dict_wrong_shape(self):
+        new_array = np.zeros((2, 3))
+        with self.assertRaises(WrongArrayShapeException):
+            self.wrapped_dict.generate_dict(new_array)
 
 
 if __name__ == '__main__':
