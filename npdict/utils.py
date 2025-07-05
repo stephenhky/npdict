@@ -15,4 +15,4 @@ class WrongArrayDimensionException(Exception):
 
 class WrongArrayShapeException(Exception):
     def __init__(self, expected_shape: Tuple[int, ...], given_shape: Tuple[int, ...]):
-        self.message = f"Expected shape: {', '.join(f"{dim_len}" for dim_len in expected_shape)}, but the given array shape is {', '.join(f"{dim_len}" for dim_len in given_shape)}!"
+        self.message = f"Expected shape: {', '.join(str(dim_len) for dim_len in expected_shape)}, but the given array shape is {', '.join(str(dim_len) for dim_len in given_shape)}!"
