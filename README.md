@@ -2,7 +2,10 @@
 
 This Python package, `npdict`, aims at facilitating holding numerical
 values in a Python dictionary, but at the same time retaining the
-fast performance supported by NumPy.
+ultra-high performance supported by NumPy. It supports an object
+which is a Python dictionary on the surface, but numpy behind the
+back, facilitating fast assignment and retrieval of values
+and fast computation of numpy arrays.
 
 ## Installation
 
@@ -95,7 +98,8 @@ array([[0.675 , 0.    , 0.    ],
 
 This is a simple operation. But the design of this wrapped Python
 dictionary is that you can perform any fast or optimized operation
-on your numpy array while retaining the keywords as your dictionary.
+on your numpy array (using numba or Cython, for examples),
+while retaining the keywords as your dictionary.
 
 ### Retrieval of Values
 
