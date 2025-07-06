@@ -3,8 +3,8 @@ requires = ["setuptools", "setuptools-scm", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pyrlutils"
-version = "0.0.1a1"
+name = "npdict"
+version = "0.0.1"
 authors = [
     {name = "Kwan Yuet Stephen Ho", email = "stephenhky@yahoo.com.hk"}
 ]
@@ -12,14 +12,12 @@ description = "A Python dictionary wrapper for numpy arrays"
 readme = {file = "README.md", content-type = "text/markdown"}
 license = {text = "MIT"}
 keywords = ["dictionary", "numpy"]
-requires-python = ">=3.7"
+requires-python = ">=3.9"
 classifiers = [
     "Topic :: Scientific/Engineering :: Mathematics",
     "License :: OSI Approved :: MIT License",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Software Development :: Version Control :: Git",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
@@ -28,7 +26,7 @@ classifiers = [
     "Intended Audience :: Science/Research",
     "Intended Audience :: Developers",
 ]
-dependencies = ["numpy"]
+dependencies = ["numpy", "typing-extensions"]
 
 [project.urls]
 Repository = "https://github.com/stephenhky/npdict"
@@ -39,4 +37,4 @@ packages = ["npdict"]
 zip-safe = false
 
 [project.optional-dependencies]
-test = ["unittest"]
+test = ["pytest"]
