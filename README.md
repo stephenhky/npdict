@@ -1,3 +1,8 @@
+
+[![GitHub release](https://img.shields.io/github/release/stephenhky/npdict.svg?maxAge=3600)](https://github.com/stephenhky/npdict/releases)
+[![pypi](https://img.shields.io/pypi/v/npdict.svg?maxAge=3600)](https://pypi.org/project/npdict/)
+[![download](https://img.shields.io/pypi/dm/npdict.svg?maxAge=2592000&label=installs&color=%2327B1FF)](https://pypi.org/project/npdict/)
+
 # `npdict`: Python Package for Dictionary Wrappers for Numpy Arrays
 
 This Python package, `npdict`, aims at facilitating holding numerical
