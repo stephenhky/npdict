@@ -18,6 +18,7 @@ class TestSparseArrayWrappedDict(unittest.TestCase):
     def test_initialization(self):
         self.assertEqual(self.wrapped_dict.tensor_dimensions, 2)
         self.assertEqual(self.wrapped_dict.dimension_sizes, [3, 2])
+        self.assertEqual(len(self.wrapped_dict), 6)
         np.testing.assert_array_equal(self.wrapped_dict.to_numpy(), np.ones((3, 2)))
 
     def test_initialization_with_duplicated_keys(self):
@@ -47,12 +48,14 @@ class TestSparseArrayWrappedDict(unittest.TestCase):
         coo = self.wrapped_dict.to_coo()
         self.assertIsInstance(coo, sparse.COO)
         self.assertEqual(coo[1, 1], 4.0)
+        self.assertEqual(coo[0, 1], 1.0)
 
     def test_to_dok(self):
         self.wrapped_dict[('c', 'd')] = 5.0
         dok = self.wrapped_dict.to_dok()
         self.assertIsInstance(dok, sparse.DOK)
         self.assertEqual(dok[2, 0], 5.0)
+        self.assertEqual(dok[1, 1], 1.0)
 
     def test_generate_dict(self):
         new_sparse_array = sparse.random((3, 2), density=0.5)
