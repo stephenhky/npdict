@@ -71,8 +71,8 @@ class SparseArrayWrappedDict(NumpyNDArrayWrappedDict):
     ) -> Self:
         if len(new_array.shape) != self.tensor_dimensions:
             raise WrongArrayDimensionException(self.tensor_dimensions, len(new_array.shape))
-        if new_array.shape != self._numpyarray.shape:
-            raise WrongArrayShapeException(self._numpyarray.shape, new_array.shape)
+        if new_array.shape != self._sparsearray.shape:
+            raise WrongArrayShapeException(self._sparsearray.shape, new_array.shape)
         if dense:
             wrapped_dict = NumpyNDArrayWrappedDict(self._lists_keystrings)
             if isinstance(new_array, sparse.SparseArray):
@@ -90,6 +90,7 @@ class SparseArrayWrappedDict(NumpyNDArrayWrappedDict):
     def __repr__(self) -> str:
         return f"<SparseArrayWrappedDict: dimensions ({', '.join(map(str, self.dimension_sizes))})>"
 
+    @classmethod
     def from_dict_given_keywords(
             cls,
             lists_keywords: list[list[str]],
