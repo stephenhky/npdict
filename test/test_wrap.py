@@ -27,6 +27,7 @@ class TestNumpyNDArrayWrappedDict(unittest.TestCase):
     def test_getitem(self):
         self.wrapped_dict[('a', 'd')] = 2.0
         self.assertEqual(self.wrapped_dict[('a', 'd')], 2.0)
+        self.wrapped_dict[('a', 'e')] = 1.0   # test empty item
 
     def test_getitem_wrong_dimension(self):
         with self.assertRaises(WrongArrayDimensionException):
@@ -34,6 +35,7 @@ class TestNumpyNDArrayWrappedDict(unittest.TestCase):
 
     def test_setitem(self):
         self.wrapped_dict[('b', 'e')] = 3.0
+        self.assertEqual(self.wrapped_dict[('b', 'e')], 3.0)
         self.assertEqual(self.wrapped_dict.to_numpy()[1, 1], 3.0)
 
     def test_setitem_wrong_dimension(self):
