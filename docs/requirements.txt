@@ -1,0 +1,5 @@
+sphinx>=4.0.0
+sphinx_rtd_theme>=1.0.0
+numpy>=1.20.0
+sparse>=0.13.0
+typing-extensions; python_version < "3.11"
