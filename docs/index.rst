@@ -22,8 +22,8 @@ back, facilitating fast assignment and retrieval of values and fast computation 
    
    installation
    quickstart
-   api
    sparse_arrays
+   api
 
 Indices and tables
 ==================
