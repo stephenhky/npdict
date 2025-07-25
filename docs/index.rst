@@ -10,6 +10,9 @@ Welcome to npdict's documentation!
 .. image:: https://img.shields.io/pypi/dm/npdict.svg?maxAge=2592000&label=installs&color=%2327B1FF
    :target: https://pypi.org/project/npdict/
 
+.. image:: https://readthedocs.org/projects/npdict/badge/?version=latest
+   :target: https://npdict.readthedocs.io/en/latest/?badge=latest
+
 ``npdict`` is a Python package for dictionary wrappers for NumPy arrays. It aims at facilitating holding numerical
 values in a Python dictionary, while retaining the ultra-high performance supported by NumPy.
 
