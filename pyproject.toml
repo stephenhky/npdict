@@ -29,6 +29,7 @@ classifiers = [
 dependencies = ["numpy", "sparse", "typing-extensions"]
 
 [project.urls]
+Documentation = "https://npdict.readthedocs.io/"
 Repository = "https://github.com/stephenhky/npdict"
 Issues = "https://github.com/stephenhky/npdict/issues"
 
