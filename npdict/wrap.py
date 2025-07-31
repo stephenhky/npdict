@@ -17,11 +17,16 @@ from .utils import DuplicatedKeyError, WrongArrayDimensionException, WrongArrayS
 class NumpyNDArrayWrappedDict(dict):
     """
     A dictionary-like class that wraps a NumPy n-dimensional array.
-    
+
     This class provides a dictionary interface to a NumPy array, where the keys are tuples of strings
     and the values are the corresponding elements in the array. The class maintains a mapping between
     string keys and array indices, allowing for more intuitive access to array elements.
     """
+    __slots__ = [
+        "_lists_keystrings", "_keystrings_to_indices", "_tensor_dimensions",
+        "_dimension_sizes", "_total_size", "_numpyarray"
+    ]
+
     def __init__(
             self,
             lists_keystrings: list[list[str]],
@@ -29,7 +34,7 @@ class NumpyNDArrayWrappedDict(dict):
     ):
         """
         Initialize a new NumpyNDArrayWrappedDict.
-        
+
         Parameters
         ----------
         lists_keystrings : list[list[str]]
@@ -37,7 +42,7 @@ class NumpyNDArrayWrappedDict(dict):
             For example, [['a', 'b'], ['c', 'd']] would create a 2x2 array with keys ('a', 'c'), ('a', 'd'), ('b', 'c'), ('b', 'd').
         default_initial_value : float, optional
             The default value to fill the array with, by default 0.0.
-            
+
         Raises
         ------
         DuplicatedKeyError
@@ -65,12 +70,12 @@ class NumpyNDArrayWrappedDict(dict):
     def _get_indices(self, item: Tuple[str, ...]) -> list[int]:
         """
         Convert a tuple of string keys to a list of integer indices.
-        
+
         Parameters
         ----------
         item : Tuple[str, ...]
             A tuple of string keys, one for each dimension of the array.
-            
+
         Returns
         -------
         list[int]
@@ -84,17 +89,17 @@ class NumpyNDArrayWrappedDict(dict):
     def __getitem__(self, item: Tuple[str, ...]) -> float:
         """
         Get the value at the specified keys.
-        
+
         Parameters
         ----------
         item : Tuple[str, ...]
             A tuple of string keys, one for each dimension of the array.
-            
+
         Returns
         -------
         float
             The value at the specified keys.
-            
+
         Raises
         ------
         WrongArrayDimensionException
@@ -108,14 +113,14 @@ class NumpyNDArrayWrappedDict(dict):
     def __setitem__(self, key: Tuple[str, ...], value: float) -> None:
         """
         Set the value at the specified keys.
-        
+
         Parameters
         ----------
         key : Tuple[str, ...]
             A tuple of string keys, one for each dimension of the array.
         value : float
             The value to set at the specified keys.
-            
+
         Raises
         ------
         WrongArrayDimensionException
@@ -129,7 +134,7 @@ class NumpyNDArrayWrappedDict(dict):
     def update(self, new_dict: dict):
         """
         This method is not supported for NumpyNDArrayWrappedDict.
-        
+
         Raises
         ------
         TypeError
@@ -140,7 +145,7 @@ class NumpyNDArrayWrappedDict(dict):
     def __iter__(self) -> Generator[Tuple[str, ...], None, None]:
         """
         Iterate over all possible key tuples in the dictionary.
-        
+
         Yields
         ------
         Tuple[str, ...]
@@ -152,7 +157,7 @@ class NumpyNDArrayWrappedDict(dict):
     def keys(self):
         """
         Get all possible key tuples in the dictionary.
-        
+
         Returns
         -------
         list[Tuple[str, ...]]
@@ -163,7 +168,7 @@ class NumpyNDArrayWrappedDict(dict):
     def values(self):
         """
         Get all values in the dictionary.
-        
+
         Returns
         -------
         list[float]
@@ -174,7 +179,7 @@ class NumpyNDArrayWrappedDict(dict):
     def items(self):
         """
         Get all key-value pairs in the dictionary.
-        
+
         Returns
         -------
         list[Tuple[Tuple[str, ...], float]]
@@ -188,7 +193,7 @@ class NumpyNDArrayWrappedDict(dict):
     def to_numpy(self) -> np.ndarray:
         """
         Convert the wrapped dictionary to a NumPy array.
-        
+
         Returns
         -------
         np.ndarray
@@ -199,17 +204,17 @@ class NumpyNDArrayWrappedDict(dict):
     def generate_dict(self, nparray: np.ndarray) -> Self:
         """
         Generate a new NumpyNDArrayWrappedDict with the same keys but different values.
-        
+
         Parameters
         ----------
         nparray : np.ndarray
             The NumPy array containing the new values.
-            
+
         Returns
         -------
         NumpyNDArrayWrappedDict
             A new NumpyNDArrayWrappedDict with the same keys but different values.
-            
+
         Raises
         ------
         WrongArrayDimensionException
@@ -228,7 +233,7 @@ class NumpyNDArrayWrappedDict(dict):
     def __repr__(self) -> str:
         """
         Return a string representation of the dictionary.
-        
+
         Returns
         -------
         str
@@ -239,7 +244,7 @@ class NumpyNDArrayWrappedDict(dict):
     def __str__(self) -> str:
         """
         Return a string representation of the dictionary.
-        
+
         Returns
         -------
         str
@@ -250,7 +255,7 @@ class NumpyNDArrayWrappedDict(dict):
     def __len__(self) -> int:
         """
         Return the total number of elements in the dictionary.
-        
+
         Returns
         -------
         int
@@ -261,7 +266,7 @@ class NumpyNDArrayWrappedDict(dict):
     def to_dict(self) -> dict[Tuple[str, ...], float]:
         """
         Convert the wrapped dictionary to a standard Python dictionary.
-        
+
         Returns
         -------
         dict[Tuple[str, ...], float]
@@ -280,7 +285,7 @@ class NumpyNDArrayWrappedDict(dict):
     ) -> Self:
         """
         Create a new NumpyNDArrayWrappedDict from a standard Python dictionary with given keywords.
-        
+
         Parameters
         ----------
         lists_keywords : list[list[str]]
@@ -289,7 +294,7 @@ class NumpyNDArrayWrappedDict(dict):
             A standard Python dictionary with keys as tuples of strings and values as floats.
         default_initial_value : float, optional
             The default value to fill the array with for keys not present in oridict, by default 0.0.
-            
+
         Returns
         -------
         NumpyNDArrayWrappedDict
@@ -311,16 +316,16 @@ class NumpyNDArrayWrappedDict(dict):
     ) -> Self:
         """
         Create a new NumpyNDArrayWrappedDict from a standard Python dictionary.
-        
+
         This method automatically extracts the keys for each dimension from the dictionary.
-        
+
         Parameters
         ----------
         oridict : dict[Tuple[str, ...], float]
             A standard Python dictionary with keys as tuples of strings and values as floats.
         default_initial_value : float, optional
             The default value to fill the array with for keys not present in oridict, by default 0.0.
-            
+
         Returns
         -------
         NumpyNDArrayWrappedDict
@@ -341,7 +346,7 @@ class NumpyNDArrayWrappedDict(dict):
     def tensor_dimensions(self) -> int:
         """
         Get the number of dimensions in the array.
-        
+
         Returns
         -------
         int
@@ -353,7 +358,7 @@ class NumpyNDArrayWrappedDict(dict):
     def dimension_sizes(self) -> list[int]:
         """
         Get the size of each dimension in the array.
-        
+
         Returns
         -------
         list[int]
