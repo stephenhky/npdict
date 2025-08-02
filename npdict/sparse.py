@@ -19,14 +19,16 @@ from .utils import DuplicatedKeyError, WrongArrayDimensionException, WrongArrayS
 class SparseArrayWrappedDict(NumpyNDArrayWrappedDict):
     """
     A dictionary-like class that wraps a sparse array.
-    
+
     This class provides a dictionary interface to a sparse array, where the keys are tuples of strings
     and the values are the corresponding elements in the array. The class maintains a mapping between
     string keys and array indices, allowing for more intuitive access to array elements.
-    
+
     This implementation uses sparse arrays instead of NumPy arrays, which is more memory-efficient
     for arrays with many zero values.
     """
+    __slots__ = ["_sparsearray"]
+
     def __init__(
             self,
             lists_keystrings: list[list[str]],
@@ -34,7 +36,7 @@ class SparseArrayWrappedDict(NumpyNDArrayWrappedDict):
     ):
         """
         Initialize a new SparseArrayWrappedDict.
-        
+
         Parameters
         ----------
         lists_keystrings : list[list[str]]
@@ -42,7 +44,7 @@ class SparseArrayWrappedDict(NumpyNDArrayWrappedDict):
             For example, [['a', 'b'], ['c', 'd']] would create a 2x2 array with keys ('a', 'c'), ('a', 'd'), ('b', 'c'), ('b', 'd').
         default_initial_value : float, optional
             The default value to fill the array with, by default 0.0.
-            
+
         Raises
         ------
         DuplicatedKeyError
@@ -72,17 +74,17 @@ class SparseArrayWrappedDict(NumpyNDArrayWrappedDict):
     def __getitem__(self, item: Tuple[str, ...]) -> float:
         """
         Get the value at the specified keys.
-        
+
         Parameters
         ----------
         item : Tuple[str, ...]
             A tuple of string keys, one for each dimension of the array.
-            
+
         Returns
         -------
         float
             The value at the specified keys.
-            
+
         Raises
         ------
         WrongArrayDimensionException
@@ -96,14 +98,14 @@ class SparseArrayWrappedDict(NumpyNDArrayWrappedDict):
     def __setitem__(self, key: Tuple[str, ...], value: float) -> None:
         """
         Set the value at the specified keys.
-        
+
         Parameters
         ----------
         key : Tuple[str, ...]
             A tuple of string keys, one for each dimension of the array.
         value : float
             The value to set at the specified keys.
-            
+
         Raises
         ------
         WrongArrayDimensionException
@@ -117,7 +119,7 @@ class SparseArrayWrappedDict(NumpyNDArrayWrappedDict):
     def to_numpy(self) -> np.ndarray:
         """
         Convert the wrapped sparse array to a dense NumPy array.
-        
+
         Returns
         -------
         np.ndarray
@@ -128,7 +130,7 @@ class SparseArrayWrappedDict(NumpyNDArrayWrappedDict):
     def to_coo(self) -> sparse.COO:
         """
         Convert the wrapped sparse array to a COO (Coordinate) format sparse array.
-        
+
         Returns
         -------
         sparse.COO
@@ -139,7 +141,7 @@ class SparseArrayWrappedDict(NumpyNDArrayWrappedDict):
     def to_dok(self) -> sparse.DOK:
         """
         Get the underlying DOK (Dictionary of Keys) format sparse array.
-        
+
         Returns
         -------
         sparse.DOK
@@ -154,7 +156,7 @@ class SparseArrayWrappedDict(NumpyNDArrayWrappedDict):
     ) -> Self:
         """
         Generate a new dictionary with the same keys but different values.
-        
+
         Parameters
         ----------
         new_array : Union[np.ndarray, sparse.SparseArray]
@@ -162,12 +164,12 @@ class SparseArrayWrappedDict(NumpyNDArrayWrappedDict):
         dense : bool, optional
             If True, returns a NumpyNDArrayWrappedDict. If False, returns a SparseArrayWrappedDict.
             Default is False.
-            
+
         Returns
         -------
         Union[NumpyNDArrayWrappedDict, SparseArrayWrappedDict]
             A new dictionary with the same keys but different values.
-            
+
         Raises
         ------
         WrongArrayDimensionException
@@ -196,7 +198,7 @@ class SparseArrayWrappedDict(NumpyNDArrayWrappedDict):
     def __repr__(self) -> str:
         """
         Return a string representation of the dictionary.
-        
+
         Returns
         -------
         str
@@ -213,7 +215,7 @@ class SparseArrayWrappedDict(NumpyNDArrayWrappedDict):
     ) -> Self:
         """
         Create a new SparseArrayWrappedDict from a standard Python dictionary with given keywords.
-        
+
         Parameters
         ----------
         lists_keywords : list[list[str]]
@@ -222,7 +224,7 @@ class SparseArrayWrappedDict(NumpyNDArrayWrappedDict):
             A standard Python dictionary with keys as tuples of strings and values as floats.
         default_initial_value : float, optional
             The default value to fill the array with for keys not present in oridict, by default 0.0.
-            
+
         Returns
         -------
         SparseArrayWrappedDict
