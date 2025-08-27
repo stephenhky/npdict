@@ -105,7 +105,7 @@ class TestSparseArrayWrappedDict(unittest.TestCase):
         )
 
         for keywords_tuple in product(*lists_keystrings):
-            print(f"f{keywords_tuple}: {wrapped_dict[keywords_tuple]} vs {sparse_wrapped_dict[key]}")
+            print(f"f{keywords_tuple}: {wrapped_dict[keywords_tuple]} vs {sparse_wrapped_dict[keywords_tuple]}")
             assert wrapped_dict[keywords_tuple] == sparse_wrapped_dict[keywords_tuple]
 
 
