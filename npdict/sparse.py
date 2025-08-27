@@ -281,5 +281,5 @@ class SparseArrayWrappedDict(NumpyNDArrayWrappedDict):
             fill_value=default_initial_value
         )
         for keywords_tuple in product(*npwrapped_dict._lists_keystrings):
-            sparse_array_wrapped_dict[keywords_tuple] = npwrapped_dict.get(keywords_tuple, default_initial_value)
+            sparse_array_wrapped_dict[keywords_tuple] = npwrapped_dict[keywords_tuple]
         return sparse_array_wrapped_dict
