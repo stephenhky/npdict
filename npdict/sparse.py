@@ -238,3 +238,22 @@ class SparseArrayWrappedDict(NumpyNDArrayWrappedDict):
             wrapped_dict[keywords_tuple] = oridict.get(keywords_tuple, default_initial_value)
         return wrapped_dict
 
+    @classmethod
+    def from_NumpyNDArrayWrappedDict(
+            cls,
+            npwrapped_dict: NumpyNDArrayWrappedDict,
+            default_initial_value: float = 0.0
+    ) -> Self:
+        assert not isinstance(npwrapped_dict, SparseArrayWrappedDict)
+
+        sparse_array_wrapped_dict = SparseArrayWrappedDict(
+            npwrapped_dict._lists_keystrings,
+            default_initial_value=default_initial_value
+        )
+        sparse_array_wrapped_dict._sparsearray = sparse.DOK(
+            tuple(npwrapped_dict.dimension_sizes),
+            fill_value=default_initial_value
+        )
+        for keywords_tuple in product(*npwrapped_dict._lists_keystrings):
+            sparse_array_wrapped_dict[keywords_tuple] = npwrapped_dict.get(keywords_tuple, default_initial_value)
+        return sparse_array_wrapped_dict
