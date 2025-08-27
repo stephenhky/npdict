@@ -264,10 +264,13 @@ class SparseArrayWrappedDict(NumpyNDArrayWrappedDict):
 
         Raises
         ------
-        AssertionError
+        TypeError
             If the input dictionary is already a SparseArrayWrappedDict.
         """
-        assert not isinstance(npwrapped_dict, SparseArrayWrappedDict)
+        try:
+            assert not isinstance(npwrapped_dict, SparseArrayWrappedDict)
+        except AssertionError:
+            raise TypeError("The npwrapped_dict must not be a SparseArrayWrappedDict.")
 
         sparse_array_wrapped_dict = SparseArrayWrappedDict(
             npwrapped_dict._lists_keystrings,
