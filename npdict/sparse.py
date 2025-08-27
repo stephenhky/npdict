@@ -244,6 +244,29 @@ class SparseArrayWrappedDict(NumpyNDArrayWrappedDict):
             npwrapped_dict: NumpyNDArrayWrappedDict,
             default_initial_value: float = 0.0
     ) -> Self:
+        """
+        Create a new SparseArrayWrappedDict from a NumpyNDArrayWrappedDict.
+
+        This method converts a dense NumPy array-based dictionary to a sparse array-based dictionary,
+        which is more memory-efficient for arrays with many zero values.
+
+        Parameters
+        ----------
+        npwrapped_dict : NumpyNDArrayWrappedDict
+            The NumpyNDArrayWrappedDict to convert. Must not be a SparseArrayWrappedDict.
+        default_initial_value : float, optional
+            The default value to fill the sparse array with, by default 0.0.
+
+        Returns
+        -------
+        SparseArrayWrappedDict
+            A new SparseArrayWrappedDict with the same keys and values as the input dictionary.
+
+        Raises
+        ------
+        AssertionError
+            If the input dictionary is already a SparseArrayWrappedDict.
+        """
         assert not isinstance(npwrapped_dict, SparseArrayWrappedDict)
 
         sparse_array_wrapped_dict = SparseArrayWrappedDict(
