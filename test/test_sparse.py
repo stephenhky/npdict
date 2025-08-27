@@ -1,8 +1,10 @@
 import unittest
+from itertools import product
+
 import numpy as np
 import sparse
 
-from npdict import SparseArrayWrappedDict
+from npdict import SparseArrayWrappedDict, NumpyNDArrayWrappedDict
 from npdict.utils import DuplicatedKeyError, WrongArrayDimensionException, WrongArrayShapeException
 
 
@@ -86,6 +88,26 @@ class TestSparseArrayWrappedDict(unittest.TestCase):
         self.assertEqual(wrapped[('a', 'd')], 10.0)
         self.assertEqual(wrapped[('c', 'e')], 20.0)
         self.assertEqual(wrapped[('b', 'd')], -1.0)
+
+    def test_dense_to_sparse(self):
+        lists_keystrings = [
+            ['a', 'b', 'c'],
+            ['d', 'e']
+        ]
+        wrapped_dict = NumpyNDArrayWrappedDict(lists_keystrings, default_initial_value=0.0)
+        wrapped_dict['a', 'd'] = 2.0
+        wrapped_dict['c', 'e'] = 3.0
+        wrapped_dict['b', 'd'] = 4.0
+
+        sparse_wrapped_dict = SparseArrayWrappedDict.from_NumpyNDArrayWrappedDict(
+            wrapped_dict,
+            default_initial_value=0.0
+        )
+
+        for keywords_tuple in product(*lists_keystrings):
+            print(f"{keywords_tuple}: {wrapped_dict[keywords_tuple]} vs {sparse_wrapped_dict[keywords_tuple]}")
+            assert wrapped_dict[keywords_tuple] == sparse_wrapped_dict[keywords_tuple]
+
 
 
 if __name__ == '__main__':

@@ -238,3 +238,48 @@ class SparseArrayWrappedDict(NumpyNDArrayWrappedDict):
             wrapped_dict[keywords_tuple] = oridict.get(keywords_tuple, default_initial_value)
         return wrapped_dict
 
+    @classmethod
+    def from_NumpyNDArrayWrappedDict(
+            cls,
+            npwrapped_dict: NumpyNDArrayWrappedDict,
+            default_initial_value: float = 0.0
+    ) -> Self:
+        """
+        Create a new SparseArrayWrappedDict from a NumpyNDArrayWrappedDict.
+
+        This method converts a dense NumPy array-based dictionary to a sparse array-based dictionary,
+        which is more memory-efficient for arrays with many zero values.
+
+        Parameters
+        ----------
+        npwrapped_dict : NumpyNDArrayWrappedDict
+            The NumpyNDArrayWrappedDict to convert. Must not be a SparseArrayWrappedDict.
+        default_initial_value : float, optional
+            The default value to fill the sparse array with, by default 0.0.
+
+        Returns
+        -------
+        SparseArrayWrappedDict
+            A new SparseArrayWrappedDict with the same keys and values as the input dictionary.
+
+        Raises
+        ------
+        TypeError
+            If the input dictionary is already a SparseArrayWrappedDict.
+        """
+        try:
+            assert not isinstance(npwrapped_dict, SparseArrayWrappedDict)
+        except AssertionError:
+            raise TypeError("The npwrapped_dict must not be a SparseArrayWrappedDict.")
+
+        sparse_array_wrapped_dict = SparseArrayWrappedDict(
+            npwrapped_dict._lists_keystrings,
+            default_initial_value=default_initial_value
+        )
+        sparse_array_wrapped_dict._sparsearray = sparse.DOK(
+            tuple(npwrapped_dict.dimension_sizes),
+            fill_value=default_initial_value
+        )
+        for keywords_tuple in product(*npwrapped_dict._lists_keystrings):
+            sparse_array_wrapped_dict[keywords_tuple] = npwrapped_dict[keywords_tuple]
+        return sparse_array_wrapped_dict

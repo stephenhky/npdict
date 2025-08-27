@@ -11,8 +11,8 @@ sys.path.insert(0, os.path.abspath('..'))
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'npdict'
-copyright = '2025, Kwan-Yuet Ho'
-author = 'Kwan-Yuet Ho'
+copyright = '2025, Kwan Yuet Stephen Ho'
+author = 'Kwan Yuet Stephen Ho'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -21,7 +21,7 @@ author = 'Kwan-Yuet Ho'
 # The short X.Y version.
 version = '0.0'
 # The full version, including alpha/beta/rc tags.
-release = '0.0.3'
+release = '0.0.5'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
