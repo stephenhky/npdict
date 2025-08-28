@@ -303,6 +303,26 @@ class NumpyNDArrayWrappedDict(dict):
             keywords_tuple: value for keywords_tuple, value in self.items()
         }
 
+    def get_key_index(self, dim: int, key: str) -> int:
+        """
+        Return the index of a given key in a certain dimension.
+
+        Parameters
+        ----------
+        dim: int
+            dimension of the key
+        key: str
+            key of which you want to look up the index
+
+        Returns
+        -------
+        int
+            index of the given key in the given dimension
+        """
+        if dim >= self.tensor_dimensions:
+            raise ValueError(f"'dim' is bigger than {self.tensor_dimensions}.")
+        return self._keystrings_to_indices[dim][key]
+
     @classmethod
     def from_dict_given_keywords(
             cls,

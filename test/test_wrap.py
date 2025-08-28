@@ -111,6 +111,12 @@ class TestNumpyNDArrayWrappedDict(unittest.TestCase):
         assert self.wrapped_dict.get(('d', 'f')) is None
         assert self.wrapped_dict.get(('d', 'g'), 1.2) == 1.2
 
+    def test_get_indices(self):
+        assert self.wrapped_dict.get_key_index(0, 'a') == 0
+        assert self.wrapped_dict.get_key_index(1, 'e') == 1
+        with self.assertRaises(KeyError):
+            self.wrapped_dict.get_key_index(1, 'a')
+
 
 if __name__ == '__main__':
     unittest.main()
