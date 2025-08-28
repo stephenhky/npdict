@@ -1,5 +1,5 @@
 
-from typing import Tuple, Generator
+from typing import Tuple, Generator, Optional
 import sys
 from itertools import product
 from functools import reduce
@@ -262,6 +262,33 @@ class NumpyNDArrayWrappedDict(dict):
             The total number of elements in the dictionary.
         """
         return self._total_size
+
+    def get(self, key: Tuple[str, ...], default_value: Optional[float]=None) -> Optional[float]:
+        """
+        Get the value at the specified keys, or default value if the key does not exist.
+
+        Parameters
+        ----------
+        key : Tuple[str, ...]
+            A tuple of string keys, one for each dimension of the array.
+
+        default_value: float, optional
+            Default value to return if the key cannot be found.
+
+        Returns
+        -------
+        float
+            The value at the specified keys.
+
+        Raises
+        ------
+        WrongArrayDimensionException
+            If the number of keys does not match the number of dimensions in the array.
+        """
+        try:
+            return self[key]
+        except KeyError:
+            return default_value
 
     def to_dict(self) -> dict[Tuple[str, ...], float]:
         """

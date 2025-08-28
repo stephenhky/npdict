@@ -107,6 +107,10 @@ class TestNumpyNDArrayWrappedDict(unittest.TestCase):
         with self.assertRaises(WrongArrayShapeException):
             self.wrapped_dict.generate_dict(new_array)
 
+    def test_get(self):
+        assert self.wrapped_dict.get(('d', 'f')) is None
+        assert self.wrapped_dict.get(('d', 'g'), 1.2) == 1.2
+
 
 if __name__ == '__main__':
     unittest.main()
