@@ -1,5 +1,5 @@
 
-from typing import Tuple, Generator, Optional
+from typing import Tuple, Generator, Optional, Union
 import sys
 from itertools import product
 from functools import reduce
@@ -86,7 +86,7 @@ class NumpyNDArrayWrappedDict(dict):
             for mapping, keyword in zip(self._keystrings_to_indices, item)
         ]
 
-    def __getitem__(self, item: Tuple[str, ...]) -> float:
+    def __getitem__(self, item: Union[Tuple[str, ...], str]) -> float:
         """
         Get the value at the specified keys.
 
@@ -105,12 +105,17 @@ class NumpyNDArrayWrappedDict(dict):
         WrongArrayDimensionException
             If the number of keys does not match the number of dimensions in the array.
         """
-        if len(item) != self.tensor_dimensions:
-            raise WrongArrayDimensionException(self.tensor_dimensions, len(item))
+        if isinstance(item, tuple):
+            if len(item) != self.tensor_dimensions:
+                raise WrongArrayDimensionException(self.tensor_dimensions, len(item))
+        else:
+            if self.tensor_dimensions != 1:
+                raise WrongArrayDimensionException(self.tensor_dimensions, 1)
+            item = (item,)
         indices = self._get_indices(item)
         return self._numpyarray[tuple(indices)]
 
-    def __setitem__(self, key: Tuple[str, ...], value: float) -> None:
+    def __setitem__(self, key: Union[Tuple[str, ...], str], value: float) -> None:
         """
         Set the value at the specified keys.
 
@@ -126,8 +131,13 @@ class NumpyNDArrayWrappedDict(dict):
         WrongArrayDimensionException
             If the number of keys does not match the number of dimensions in the array.
         """
-        if len(key) != self.tensor_dimensions:
-            raise WrongArrayDimensionException(self.tensor_dimensions, len(key))
+        if isinstance(key, tuple):
+            if len(key) != self.tensor_dimensions:
+                raise WrongArrayDimensionException(self.tensor_dimensions, len(key))
+        else:
+            if self.tensor_dimensions != 1:
+                raise WrongArrayDimensionException(self.tensor_dimensions, 1)
+            key = (key,)
         indices = self._get_indices(key)
         self._numpyarray[tuple(indices)] = value
 
