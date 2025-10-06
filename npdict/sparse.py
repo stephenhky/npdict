@@ -77,7 +77,7 @@ class SparseArrayWrappedDict(NumpyNDArrayWrappedDict):
 
         Parameters
         ----------
-        item : Tuple[str, ...]
+        item : Tuple[str, ...] | str
             A tuple of string keys, one for each dimension of the array.
 
         Returns
@@ -106,7 +106,7 @@ class SparseArrayWrappedDict(NumpyNDArrayWrappedDict):
 
         Parameters
         ----------
-        key : Tuple[str, ...]
+        key : Tuple[str, ...] | str
             A tuple of string keys, one for each dimension of the array.
         value : float
             The value to set at the specified keys.
