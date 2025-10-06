@@ -27,20 +27,27 @@ class TestNumpyNDArrayWrappedDict(unittest.TestCase):
     def test_getitem(self):
         self.wrapped_dict[('a', 'd')] = 2.0
         self.assertEqual(self.wrapped_dict[('a', 'd')], 2.0)
+        self.assertEqual(self.wrapped_dict['a', 'd'], 2.0)
         self.wrapped_dict[('a', 'e')] = 1.0   # test empty item
 
     def test_getitem_wrong_dimension(self):
         with self.assertRaises(WrongArrayDimensionException):
             _ = self.wrapped_dict[('a',)]
+            _ = self.wrapped_dict['a']
 
     def test_setitem(self):
         self.wrapped_dict[('b', 'e')] = 3.0
         self.assertEqual(self.wrapped_dict[('b', 'e')], 3.0)
         self.assertEqual(self.wrapped_dict.to_numpy()[1, 1], 3.0)
 
+        self.wrapped_dict['b', 'e'] = 3.1
+        self.assertEqual(self.wrapped_dict['b', 'e'], 3.1)
+        self.assertEqual(self.wrapped_dict.to_numpy()[1, 1], 3.1)
+
     def test_setitem_wrong_dimension(self):
         with self.assertRaises(WrongArrayDimensionException):
             self.wrapped_dict[('a', 'b', 'c')] = 1.0
+            self.wrapped_dict['a', 'b', 'c'] = 1.0
 
     def test_iteration(self):
         keys = list(self.wrapped_dict)
@@ -106,6 +113,16 @@ class TestNumpyNDArrayWrappedDict(unittest.TestCase):
         new_array = np.zeros((2, 3))
         with self.assertRaises(WrongArrayShapeException):
             self.wrapped_dict.generate_dict(new_array)
+
+    def test_get(self):
+        assert self.wrapped_dict.get(('d', 'f')) is None
+        assert self.wrapped_dict.get(('d', 'g'), 1.2) == 1.2
+
+    def test_get_indices(self):
+        assert self.wrapped_dict.get_key_index(0, 'a') == 0
+        assert self.wrapped_dict.get_key_index(1, 'e') == 1
+        with self.assertRaises(KeyError):
+            self.wrapped_dict.get_key_index(1, 'a')
 
 
 if __name__ == '__main__':

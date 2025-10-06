@@ -71,13 +71,13 @@ class SparseArrayWrappedDict(NumpyNDArrayWrappedDict):
             fill_value=default_initial_value
         )
 
-    def __getitem__(self, item: Tuple[str, ...]) -> float:
+    def __getitem__(self, item: Union[Tuple[str, ...], str]) -> float:
         """
         Get the value at the specified keys.
 
         Parameters
         ----------
-        item : Tuple[str, ...]
+        item : Tuple[str, ...] | str
             A tuple of string keys, one for each dimension of the array.
 
         Returns
@@ -90,18 +90,23 @@ class SparseArrayWrappedDict(NumpyNDArrayWrappedDict):
         WrongArrayDimensionException
             If the number of keys does not match the number of dimensions in the array.
         """
-        if len(item) != self.tensor_dimensions:
-            raise WrongArrayDimensionException(self.tensor_dimensions, len(item))
+        if isinstance(item, tuple):
+            if len(item) != self.tensor_dimensions:
+                raise WrongArrayDimensionException(self.tensor_dimensions, len(item))
+        else:
+            if self.tensor_dimensions != 1:
+                raise WrongArrayDimensionException(self.tensor_dimensions, 1)
+            item = (item,)
         indices = self._get_indices(item)
         return self._sparsearray[tuple(indices)]
 
-    def __setitem__(self, key: Tuple[str, ...], value: float) -> None:
+    def __setitem__(self, key: Union[Tuple[str, ...], str], value: float) -> None:
         """
         Set the value at the specified keys.
 
         Parameters
         ----------
-        key : Tuple[str, ...]
+        key : Tuple[str, ...] | str
             A tuple of string keys, one for each dimension of the array.
         value : float
             The value to set at the specified keys.
@@ -111,8 +116,13 @@ class SparseArrayWrappedDict(NumpyNDArrayWrappedDict):
         WrongArrayDimensionException
             If the number of keys does not match the number of dimensions in the array.
         """
-        if len(key) != self.tensor_dimensions:
-            raise WrongArrayDimensionException(self.tensor_dimensions, len(key))
+        if isinstance(key, tuple):
+            if len(key) != self.tensor_dimensions:
+                raise WrongArrayDimensionException(self.tensor_dimensions, len(key))
+        else:
+            if self.tensor_dimensions != 1:
+                raise WrongArrayDimensionException(self.tensor_dimensions, 1)
+            key = (key,)
         indices = self._get_indices(key)
         self._sparsearray[tuple(indices)] = value
 

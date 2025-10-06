@@ -30,11 +30,13 @@ class TestSparseArrayWrappedDict(unittest.TestCase):
     def test_getitem_setitem(self):
         self.wrapped_dict[('a', 'd')] = 2.0
         self.assertEqual(self.wrapped_dict[('a', 'd')], 2.0)
+        self.assertEqual(self.wrapped_dict['a', 'd'], 2.0)
         self.assertEqual(self.wrapped_dict[('b', 'e')], 1.0)
 
     def test_getitem_wrong_dimension(self):
         with self.assertRaises(WrongArrayDimensionException):
             _ = self.wrapped_dict[('a',)]
+            _ = self.wrapped_dict['a']
 
     def test_setitem_wrong_dimension(self):
         with self.assertRaises(WrongArrayDimensionException):

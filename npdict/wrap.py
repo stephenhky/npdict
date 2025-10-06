@@ -1,5 +1,5 @@
 
-from typing import Tuple, Generator
+from typing import Tuple, Generator, Optional, Union
 import sys
 from itertools import product
 from functools import reduce
@@ -86,13 +86,13 @@ class NumpyNDArrayWrappedDict(dict):
             for mapping, keyword in zip(self._keystrings_to_indices, item)
         ]
 
-    def __getitem__(self, item: Tuple[str, ...]) -> float:
+    def __getitem__(self, item: Union[Tuple[str, ...], str]) -> float:
         """
         Get the value at the specified keys.
 
         Parameters
         ----------
-        item : Tuple[str, ...]
+        item : Tuple[str, ...] | str
             A tuple of string keys, one for each dimension of the array.
 
         Returns
@@ -105,18 +105,23 @@ class NumpyNDArrayWrappedDict(dict):
         WrongArrayDimensionException
             If the number of keys does not match the number of dimensions in the array.
         """
-        if len(item) != self.tensor_dimensions:
-            raise WrongArrayDimensionException(self.tensor_dimensions, len(item))
+        if isinstance(item, tuple):
+            if len(item) != self.tensor_dimensions:
+                raise WrongArrayDimensionException(self.tensor_dimensions, len(item))
+        else:
+            if self.tensor_dimensions != 1:
+                raise WrongArrayDimensionException(self.tensor_dimensions, 1)
+            item = (item,)
         indices = self._get_indices(item)
         return self._numpyarray[tuple(indices)]
 
-    def __setitem__(self, key: Tuple[str, ...], value: float) -> None:
+    def __setitem__(self, key: Union[Tuple[str, ...], str], value: float) -> None:
         """
         Set the value at the specified keys.
 
         Parameters
         ----------
-        key : Tuple[str, ...]
+        key : Tuple[str, ...] | str
             A tuple of string keys, one for each dimension of the array.
         value : float
             The value to set at the specified keys.
@@ -126,8 +131,13 @@ class NumpyNDArrayWrappedDict(dict):
         WrongArrayDimensionException
             If the number of keys does not match the number of dimensions in the array.
         """
-        if len(key) != self.tensor_dimensions:
-            raise WrongArrayDimensionException(self.tensor_dimensions, len(key))
+        if isinstance(key, tuple):
+            if len(key) != self.tensor_dimensions:
+                raise WrongArrayDimensionException(self.tensor_dimensions, len(key))
+        else:
+            if self.tensor_dimensions != 1:
+                raise WrongArrayDimensionException(self.tensor_dimensions, 1)
+            key = (key,)
         indices = self._get_indices(key)
         self._numpyarray[tuple(indices)] = value
 
@@ -263,6 +273,33 @@ class NumpyNDArrayWrappedDict(dict):
         """
         return self._total_size
 
+    def get(self, key: Tuple[str, ...], default_value: Optional[float]=None) -> Optional[float]:
+        """
+        Get the value at the specified keys, or default value if the key does not exist.
+
+        Parameters
+        ----------
+        key : Tuple[str, ...]
+            A tuple of string keys, one for each dimension of the array.
+
+        default_value: float, optional
+            Default value to return if the key cannot be found.
+
+        Returns
+        -------
+        float
+            The value at the specified keys.
+
+        Raises
+        ------
+        WrongArrayDimensionException
+            If the number of keys does not match the number of dimensions in the array.
+        """
+        try:
+            return self[key]
+        except KeyError:
+            return default_value
+
     def to_dict(self) -> dict[Tuple[str, ...], float]:
         """
         Convert the wrapped dictionary to a standard Python dictionary.
@@ -275,6 +312,26 @@ class NumpyNDArrayWrappedDict(dict):
         return {
             keywords_tuple: value for keywords_tuple, value in self.items()
         }
+
+    def get_key_index(self, dim: int, key: str) -> int:
+        """
+        Return the index of a given key in a certain dimension.
+
+        Parameters
+        ----------
+        dim: int
+            dimension of the key
+        key: str
+            key of which you want to look up the index
+
+        Returns
+        -------
+        int
+            index of the given key in the given dimension
+        """
+        if dim >= self.tensor_dimensions:
+            raise ValueError(f"'dim' is bigger than {self.tensor_dimensions}.")
+        return self._keystrings_to_indices[dim][key]
 
     @classmethod
     def from_dict_given_keywords(
