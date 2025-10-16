@@ -399,6 +399,47 @@ class NumpyNDArrayWrappedDict(dict):
             default_initial_value=default_initial_value
         )
 
+    @classmethod
+    def from_numpyarray_given_keywords(
+            cls,
+            lists_keywords: list[list[str]],
+            numarray: np.ndarray
+    ) -> Self:
+        """
+        Create a new NumpyNDArrayWrappedDict from a NumPy array with given keywords.
+
+        Parameters
+        ----------
+        lists_keywords : list[list[str]]
+            A list of lists of strings, where each inner list contains the keys for one dimension of the array.
+        numarray : np.ndarray
+            The NumPy array containing the values for the new dictionary.
+
+        Returns
+        -------
+        NumpyNDArrayWrappedDict
+            A new NumpyNDArrayWrappedDict with the specified keys and values from the NumPy array.
+
+        Raises
+        ------
+        WrongArrayShapeException
+            If the shape of the array does not match the number of keywords in each dimension.
+        WrongArrayDimensionException
+            If the number of dimensions in the array does not match the number of keyword lists.
+        """
+        wrapped_dict = NumpyNDArrayWrappedDict(lists_keywords)
+        try:
+            assert wrapped_dict.tensor_dimensions == len(numarray.shape)
+        except AssertionError:
+            raise WrongArrayShapeException(tuple(wrapped_dict.dimension_sizes), numarray.shape)
+        for list_keywords, dimension in zip(lists_keywords, numarray.shape):
+            try:
+                assert len(list_keywords) == dimension
+            except AssertionError:
+                raise WrongArrayDimensionException(len(list_keywords), dimension)
+        wrapped_dict._numpyarray = numarray
+        return wrapped_dict
+
     @property
     def tensor_dimensions(self) -> int:
         """
