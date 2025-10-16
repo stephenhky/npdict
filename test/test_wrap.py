@@ -1,4 +1,7 @@
+
 import unittest
+from itertools import product
+
 import numpy as np
 
 from npdict import NumpyNDArrayWrappedDict
@@ -123,6 +126,14 @@ class TestNumpyNDArrayWrappedDict(unittest.TestCase):
         assert self.wrapped_dict.get_key_index(1, 'e') == 1
         with self.assertRaises(KeyError):
             self.wrapped_dict.get_key_index(1, 'a')
+
+    def test_from_numpy(self):
+        wrapped_dict = NumpyNDArrayWrappedDict.from_numpyarray_given_keywords(
+            self.lists_keystrings,
+            self.wrapped_dict.to_numpy()
+        )
+        for keywords1, keywords2 in product(self.lists_keystrings[0], self.lists_keystrings[1]):
+            assert wrapped_dict[keywords1, keywords2] == self.wrapped_dict[keywords1, keywords2]
 
 
 if __name__ == '__main__':

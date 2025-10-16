@@ -293,3 +293,72 @@ class SparseArrayWrappedDict(NumpyNDArrayWrappedDict):
         for keywords_tuple in product(*npwrapped_dict._lists_keystrings):
             sparse_array_wrapped_dict[keywords_tuple] = npwrapped_dict[keywords_tuple]
         return sparse_array_wrapped_dict
+
+    @classmethod
+    def from_numpyarray_given_keywords(
+            cls,
+            lists_keywords: list[list[str]],
+            numarray: np.ndarray
+    ) -> Self:
+        """
+        Create a new SparseArrayWrappedDict from a NumPy array with given keywords.
+
+        Parameters
+        ----------
+        lists_keywords : list[list[str]]
+            A list of lists of strings, where each inner list contains the keys for one dimension of the array.
+        numarray : np.ndarray
+            The NumPy array containing the values for the new dictionary.
+
+        Returns
+        -------
+        SparseArrayWrappedDict
+            A new SparseArrayWrappedDict with the specified keys and values from the NumPy array.
+
+        Raises
+        ------
+        NotImplementedError
+            This method is not implemented for SparseArrayWrappedDict.
+        """
+        raise NotImplementedError()
+
+    @classmethod
+    def from_sparsearray_given_keywords(
+            cls,
+            lists_keywords: list[list[str]],
+            sparsearray: sparse.SparseArray
+    ) -> Self:
+        """
+        Create a new SparseArrayWrappedDict from a sparse array with given keywords.
+
+        Parameters
+        ----------
+        lists_keywords : list[list[str]]
+            A list of lists of strings, where each inner list contains the keys for one dimension of the array.
+        sparsearray : sparse.SparseArray
+            The sparse array containing the values for the new dictionary.
+
+        Returns
+        -------
+        SparseArrayWrappedDict
+            A new SparseArrayWrappedDict with the specified keys and values from the sparse array.
+
+        Raises
+        ------
+        WrongArrayShapeException
+            If the shape of the array does not match the number of keywords in each dimension.
+        WrongArrayDimensionException
+            If the number of dimensions in the array does not match the number of keyword lists.
+        """
+        sparse_array_wrapped_dict = SparseArrayWrappedDict(lists_keywords)
+        try:
+            assert sparse_array_wrapped_dict.tensor_dimensions == len(sparsearray.shape)
+        except AssertionError:
+            raise WrongArrayShapeException(tuple(sparse_array_wrapped_dict.dimension_sizes), sparsearray.shape)
+        for list_keywords, dimension in zip(lists_keywords, sparsearray.shape):
+            try:
+                assert len(list_keywords) == dimension
+            except AssertionError:
+                raise WrongArrayDimensionException(len(list_keywords), dimension)
+        sparse_array_wrapped_dict._sparsearray = sparsearray
+        return sparse_array_wrapped_dict

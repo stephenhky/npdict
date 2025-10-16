@@ -1,3 +1,4 @@
+
 import unittest
 from itertools import product
 
@@ -110,6 +111,13 @@ class TestSparseArrayWrappedDict(unittest.TestCase):
             print(f"{keywords_tuple}: {wrapped_dict[keywords_tuple]} vs {sparse_wrapped_dict[keywords_tuple]}")
             assert wrapped_dict[keywords_tuple] == sparse_wrapped_dict[keywords_tuple]
 
+    def test_from_sparse(self):
+        sparse_wrapped_dict = SparseArrayWrappedDict.from_sparsearray_given_keywords(
+            self.lists_keystrings,
+            self.wrapped_dict.to_dok()
+        )
+        for keywords1, keywords2 in product(self.lists_keystrings[0], self.lists_keystrings[1]):
+            assert sparse_wrapped_dict[keywords1, keywords2] == self.wrapped_dict[keywords1, keywords2]
 
 
 if __name__ == '__main__':
