@@ -1,8 +1,13 @@
 
-from typing import Generator, Optional, Union, Self
+from typing import Generator, Optional, Union
 import sys
 from itertools import product
 from functools import reduce
+
+if sys.version_info < (3, 11):
+    from typing_extensions import Self
+else:
+    from typing import Self
 
 import numpy as np
 

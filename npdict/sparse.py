@@ -1,8 +1,13 @@
 
 from functools import reduce
-from typing import Tuple, Union, Self
+from typing import Tuple, Union
 import sys
 from itertools import product
+
+if sys.version_info < (3, 11):
+    from typing_extensions import Self
+else:
+    from typing import Self
 
 import numpy as np
 import sparse
