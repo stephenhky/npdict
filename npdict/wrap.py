@@ -1,15 +1,15 @@
 
-from typing import Tuple, Generator, Optional, Union
+from typing import Generator, Optional, Union
 import sys
 from itertools import product
 from functools import reduce
-
-import numpy as np
 
 if sys.version_info < (3, 11):
     from typing_extensions import Self
 else:
     from typing import Self
+
+import numpy as np
 
 from .utils import DuplicatedKeyError, WrongArrayDimensionException, WrongArrayShapeException
 
@@ -67,7 +67,7 @@ class NumpyNDArrayWrappedDict(dict):
         self._numpyarray = np.empty(tuple(len(l) for l in self._lists_keystrings))
         self._numpyarray.fill(default_initial_value)
 
-    def _get_indices(self, item: Tuple[str, ...]) -> list[int]:
+    def _get_indices(self, item: tuple[str, ...]) -> list[int]:
         """
         Convert a tuple of string keys to a list of integer indices.
 
@@ -86,7 +86,7 @@ class NumpyNDArrayWrappedDict(dict):
             for mapping, keyword in zip(self._keystrings_to_indices, item)
         ]
 
-    def __getitem__(self, item: Union[Tuple[str, ...], str]) -> float:
+    def __getitem__(self, item: Union[tuple[str, ...], str]) -> float:
         """
         Get the value at the specified keys.
 
@@ -115,7 +115,7 @@ class NumpyNDArrayWrappedDict(dict):
         indices = self._get_indices(item)
         return self._numpyarray[tuple(indices)]
 
-    def __setitem__(self, key: Union[Tuple[str, ...], str], value: float) -> None:
+    def __setitem__(self, key: Union[tuple[str, ...], str], value: float) -> None:
         """
         Set the value at the specified keys.
 
@@ -152,7 +152,7 @@ class NumpyNDArrayWrappedDict(dict):
         """
         raise TypeError("We cannot update this kind of dict this way!")
 
-    def __iter__(self) -> Generator[Tuple[str, ...], None, None]:
+    def __iter__(self) -> Generator[tuple[str, ...], None, None]:
         """
         Iterate over all possible key tuples in the dictionary.
 
@@ -273,7 +273,7 @@ class NumpyNDArrayWrappedDict(dict):
         """
         return self._total_size
 
-    def get(self, key: Tuple[str, ...], default_value: Optional[float]=None) -> Optional[float]:
+    def get(self, key: tuple[str, ...], default_value: Optional[float]=None) -> Optional[float]:
         """
         Get the value at the specified keys, or default value if the key does not exist.
 
@@ -300,7 +300,7 @@ class NumpyNDArrayWrappedDict(dict):
         except KeyError:
             return default_value
 
-    def to_dict(self) -> dict[Tuple[str, ...], float]:
+    def to_dict(self) -> dict[tuple[str, ...], float]:
         """
         Convert the wrapped dictionary to a standard Python dictionary.
 
@@ -337,7 +337,7 @@ class NumpyNDArrayWrappedDict(dict):
     def from_dict_given_keywords(
             cls,
             lists_keywords: list[list[str]],
-            oridict: dict[Tuple[str, ...], float],
+            oridict: dict[tuple[str, ...], float],
             default_initial_value: float = 0.0
     ) -> Self:
         """
@@ -368,7 +368,7 @@ class NumpyNDArrayWrappedDict(dict):
     @classmethod
     def from_dict(
             cls,
-            oridict: dict[Tuple[str, ...], float],
+            oridict: dict[tuple[str, ...], float],
             default_initial_value: float = 0.0
     ) -> Self:
         """

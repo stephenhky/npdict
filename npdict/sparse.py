@@ -4,13 +4,13 @@ from typing import Tuple, Union
 import sys
 from itertools import product
 
-import numpy as np
-import sparse
-
 if sys.version_info < (3, 11):
     from typing_extensions import Self
 else:
     from typing import Self
+
+import numpy as np
+import sparse
 
 from .wrap import NumpyNDArrayWrappedDict
 from .utils import DuplicatedKeyError, WrongArrayDimensionException, WrongArrayShapeException
