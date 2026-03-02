@@ -1,16 +1,11 @@
 
 from functools import reduce
-from typing import Tuple, Union
+from typing import Tuple, Union, Self
 import sys
 from itertools import product
 
 import numpy as np
 import sparse
-
-if sys.version_info < (3, 11):
-    from typing_extensions import Self
-else:
-    from typing import Self
 
 from .wrap import NumpyNDArrayWrappedDict
 from .utils import DuplicatedKeyError, WrongArrayDimensionException, WrongArrayShapeException

@@ -1,8 +1,5 @@
 
 
-from typing import Tuple
-
-
 class DuplicatedKeyError(Exception):
     """
     Exception raised when duplicate keys are found in a list of keys.
@@ -32,5 +29,5 @@ class WrongArrayShapeException(Exception):
     This exception is raised when the shape of an array does not match the expected shape,
     even if the number of dimensions is correct.
     """
-    def __init__(self, expected_shape: Tuple[int, ...], given_shape: Tuple[int, ...]):
+    def __init__(self, expected_shape: tuple[int, ...], given_shape: tuple[int, ...]):
         self.message = f"Expected shape: {', '.join(str(dim_len) for dim_len in expected_shape)}, but the given array shape is {', '.join(str(dim_len) for dim_len in given_shape)}!"
