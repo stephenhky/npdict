@@ -4,14 +4,13 @@ import sys
 from itertools import product
 from functools import reduce
 
+import numpy as np
 if sys.version_info < (3, 11):
     from typing_extensions import Self
 else:
     from typing import Self
 
-import numpy as np
-
-from .utils import DuplicatedKeyError, WrongArrayDimensionException, WrongArrayShapeException
+from .exceptions import DuplicatedKeyError, WrongArrayDimensionException, WrongArrayShapeException
 
 
 class NumpyNDArrayWrappedDict(dict):

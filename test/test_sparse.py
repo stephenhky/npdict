@@ -6,7 +6,7 @@ import numpy as np
 import sparse
 
 from npdict import SparseArrayWrappedDict, NumpyNDArrayWrappedDict
-from npdict.utils import DuplicatedKeyError, WrongArrayDimensionException, WrongArrayShapeException
+from npdict.exceptions import DuplicatedKeyError, WrongArrayDimensionException, WrongArrayShapeException
 
 
 class TestSparseArrayWrappedDict(unittest.TestCase):

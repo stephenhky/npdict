@@ -13,7 +13,7 @@ import numpy as np
 import sparse
 
 from .wrap import NumpyNDArrayWrappedDict
-from .utils import DuplicatedKeyError, WrongArrayDimensionException, WrongArrayShapeException
+from .exceptions import DuplicatedKeyError, WrongArrayDimensionException, WrongArrayShapeException
 
 
 class SparseArrayWrappedDict(NumpyNDArrayWrappedDict):
