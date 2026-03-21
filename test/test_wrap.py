@@ -5,7 +5,7 @@ from itertools import product
 import numpy as np
 
 from npdict import NumpyNDArrayWrappedDict
-from npdict.utils import DuplicatedKeyError, WrongArrayDimensionException, WrongArrayShapeException
+from npdict.exceptions import DuplicatedKeyError, WrongArrayDimensionException, WrongArrayShapeException
 
 
 class TestNumpyNDArrayWrappedDict(unittest.TestCase):

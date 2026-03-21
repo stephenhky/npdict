@@ -1,5 +1,5 @@
 
-from typing import Generator, Optional, Union
+from typing import Tuple, Generator, Optional, Union
 import sys
 from itertools import product
 from functools import reduce
@@ -9,9 +9,7 @@ if sys.version_info < (3, 11):
 else:
     from typing import Self
 
-import numpy as np
-
-from .utils import DuplicatedKeyError, WrongArrayDimensionException, WrongArrayShapeException
+from .exceptions import DuplicatedKeyError, WrongArrayDimensionException, WrongArrayShapeException
 
 
 class NumpyNDArrayWrappedDict(dict):
