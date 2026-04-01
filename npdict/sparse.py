@@ -361,7 +361,12 @@ class SparseArrayWrappedDict(NumpyNDArrayWrappedDict):
                 assert len(list_keywords) == dimension
             except AssertionError:
                 raise WrongArrayDimensionException(len(list_keywords), dimension)
-        sparse_array_wrapped_dict._sparsearray = sparsearray
+        if isinstance(sparsearray, sparse.DOK):
+            sparse_array_wrapped_dict._sparsearray = sparsearray
+        elif isinstance(sparsearray, sparse.COO):
+            sparse_array_wrapped_dict._sparsearray = sparse.DOK.from_coo(sparsearray)
+        else:
+            raise TypeError("sparse_array_wrapped_dict is not a sparse.SparseArray object!")
         return sparse_array_wrapped_dict
 
     def save(self, filepath: str | PathLike) -> None:
