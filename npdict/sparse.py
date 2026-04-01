@@ -3,6 +3,7 @@ from functools import reduce
 from typing import Tuple, Union
 import sys
 from itertools import product
+from os import PathLike
 
 if sys.version_info < (3, 11):
     from typing_extensions import Self
@@ -362,3 +363,27 @@ class SparseArrayWrappedDict(NumpyNDArrayWrappedDict):
                 raise WrongArrayDimensionException(len(list_keywords), dimension)
         sparse_array_wrapped_dict._sparsearray = sparsearray
         return sparse_array_wrapped_dict
+
+    def save(self, filepath: str | PathLike) -> None:
+        np.save(
+            filepath,
+            {
+                "lists_of_strings": self._lists_keystrings,
+                "shape": self._sparsearray.shape,
+                "coords": self._sparsearray.to_coo().coords,
+                "data": self._sparsearray.to_coo().data
+            }
+        )
+
+    @classmethod
+    def load(cls, filepath: str | PathLike) -> Self:
+        loaded_item = np.load(filepath, allow_pickle=True).item()
+        spmatrix = sparse.COO(
+            loaded_item["coords"],
+            loaded_item["data"],
+            shape=loaded_item["shape"]
+        )
+        return SparseArrayWrappedDict.from_sparsearray_given_keywords(
+            loaded_item["lists_of_strings"],
+            sparse.DOK.from_coo(spmatrix)
+        )
