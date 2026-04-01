@@ -464,7 +464,7 @@ class NumpyNDArrayWrappedDict(dict):
         """
         return self._dimension_sizes
 
-    def save(self, filepath: str | PathLike) -> None:
+    def save(self, filepath: Union[str, PathLike]) -> None:
         np.save(
             filepath,
             {
@@ -474,7 +474,7 @@ class NumpyNDArrayWrappedDict(dict):
         )
 
     @classmethod
-    def load(cls, filepath: str | PathLike) -> Self:
+    def load(cls, filepath: Union[str, PathLike]) -> Self:
         loaded_item = np.load(filepath, allow_pickle=True).item()
         return NumpyNDArrayWrappedDict.from_numpyarray_given_keywords(
             loaded_item["lists_of_strings"],

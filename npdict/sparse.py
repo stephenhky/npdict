@@ -369,7 +369,7 @@ class SparseArrayWrappedDict(NumpyNDArrayWrappedDict):
             raise TypeError("sparse_array_wrapped_dict is not a sparse.SparseArray object!")
         return sparse_array_wrapped_dict
 
-    def save(self, filepath: str | PathLike) -> None:
+    def save(self, filepath: Union[str, PathLike]) -> None:
         np.save(
             filepath,
             {
@@ -381,7 +381,7 @@ class SparseArrayWrappedDict(NumpyNDArrayWrappedDict):
         )
 
     @classmethod
-    def load(cls, filepath: str | PathLike) -> Self:
+    def load(cls, filepath: Union[str, PathLike]) -> Self:
         loaded_item = np.load(filepath, allow_pickle=True).item()
         spmatrix = sparse.COO(
             loaded_item["coords"],
