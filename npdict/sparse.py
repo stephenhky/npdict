@@ -206,6 +206,18 @@ class SparseArrayWrappedDict(NumpyNDArrayWrappedDict):
                 wrapped_dict._sparsearray = sparse.DOK(new_array)
         return wrapped_dict
 
+    def is_sparse(self) -> bool:
+        """
+        Check whether the underlying array storage is sparse.
+
+        Returns
+        -------
+        bool
+            Always ``True`` for :class:`SparseArrayWrappedDict`, since it
+            uses a sparse array as the backing store.
+        """
+        return True
+
     def __repr__(self) -> str:
         """
         Return a string representation of the dictionary.

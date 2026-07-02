@@ -135,6 +135,9 @@ class TestNumpyNDArrayWrappedDict(unittest.TestCase):
         for keywords1, keywords2 in product(self.lists_keystrings[0], self.lists_keystrings[1]):
             assert wrapped_dict[keywords1, keywords2] == self.wrapped_dict[keywords1, keywords2]
 
+    def test_sparse(self):
+        assert not self.wrapped_dict.is_sparse()
+
 
 if __name__ == '__main__':
     unittest.main()
