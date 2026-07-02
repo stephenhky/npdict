@@ -3,6 +3,7 @@ from typing import Generator, Optional, Union
 import sys
 from itertools import product
 from functools import reduce
+from os import PathLike
 
 import numpy as np
 if sys.version_info < (3, 11):
@@ -474,3 +475,20 @@ class NumpyNDArrayWrappedDict(dict):
             A list of the size of each dimension in the array.
         """
         return self._dimension_sizes
+
+    def save(self, filepath: Union[str, PathLike]) -> None:
+        np.save(
+            filepath,
+            {
+                "lists_of_strings": self._lists_keystrings,
+                "numpyarray": self._numpyarray
+            }
+        )
+
+    @classmethod
+    def load(cls, filepath: Union[str, PathLike]) -> Self:
+        loaded_item = np.load(filepath, allow_pickle=True).item()
+        return NumpyNDArrayWrappedDict.from_numpyarray_given_keywords(
+            loaded_item["lists_of_strings"],
+            loaded_item["numpyarray"]
+        )
