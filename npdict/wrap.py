@@ -332,6 +332,18 @@ class NumpyNDArrayWrappedDict(dict):
             raise ValueError(f"'dim' is bigger than {self.tensor_dimensions}.")
         return self._keystrings_to_indices[dim][key]
 
+    def is_sparse(self) -> bool:
+        """
+        Check whether the underlying array storage is sparse.
+
+        Returns
+        -------
+        bool
+            Always ``False`` for :class:`NumpyNDArrayWrappedDict`, since it
+            uses a dense NumPy array as the backing store.
+        """
+        return False
+
     @classmethod
     def from_dict_given_keywords(
             cls,
