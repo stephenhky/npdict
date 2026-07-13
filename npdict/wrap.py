@@ -313,6 +313,19 @@ class NumpyNDArrayWrappedDict(dict):
             keywords_tuple: value for keywords_tuple, value in self.items()
         }
 
+    def to_jsonfriendly_dict(self) -> dict[str, float]:
+        """
+        Convert the wrapped dictionary to a standard Python dictionary but in a JSON-friendly way.
+
+        Returns
+        -------
+        dict[Tuple[str, ...], float]
+            A standard Python dictionary with the same keys and values as the wrapped dictionary.
+        """
+        return {
+            "-".join(keywords_tuple): value for keywords_tuple, value in self.items()
+        }
+
     def get_key_index(self, dim: int, key: str) -> int:
         """
         Return the index of a given key in a certain dimension.
