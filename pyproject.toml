@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "npdict"
-version = "0.0.13a2"
+version = "0.0.13a3"
 authors = [
     {name = "Kwan Yuet Stephen Ho", email = "stephenhky@yahoo.com.hk"}
 ]
@@ -28,6 +28,7 @@ classifiers = [
     "Intended Audience :: Developers",
 ]
 dependencies = ["numpy", "sparse", "typing-extensions"]
+package-dir = {"" = "src"}
 
 [project.urls]
 Documentation = "https://npdict.readthedocs.io/"
