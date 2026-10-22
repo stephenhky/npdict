@@ -28,7 +28,6 @@ classifiers = [
     "Intended Audience :: Developers",
 ]
 dependencies = ["numpy", "sparse", "typing-extensions"]
-package-dir = {"" = "src"}
 
 [project.urls]
 Documentation = "https://npdict.readthedocs.io/"
@@ -38,6 +37,7 @@ Issues = "https://github.com/stephenhky/npdict/issues"
 [tool.setuptools]
 packages = ["npdict"]
 zip-safe = false
+package-dir = {"" = "src"}
 
 [project.optional-dependencies]
 test = ["pytest"]
