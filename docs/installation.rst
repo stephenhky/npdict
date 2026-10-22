@@ -6,7 +6,7 @@ Requirements
 
 ``npdict`` requires:
 
-* Python (>= 3.7)
+* Python (>= 3.9)
 * NumPy (>= 1.20.0)
 * sparse (>= 0.13.0)
 
